@@ -1,0 +1,21 @@
+{
+  "Main": {
+    "name": {
+      "type": "Text",
+      "config": {
+        "label": "name"
+      }
+    },
+    "picture": {
+      "type": "Image",
+      "config": {
+        "constraint": {
+          "width": 200,
+          "height": 200
+        },
+        "thumbnails": [],
+        "label": "picture"
+      }
+    }
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "Main": {
+    "uid": {
+      "type": "UID",
+      "config": {
+        "label": "slug"
+      }
+    },
+    "title": {
+      "type": "StructuredText",
+      "config": {
+        "single": "heading1, heading2, heading3, heading4, heading5, heading6",
+        "label": "title"
+      }
+    },
+    "author": {
+      "type": "Link",
+      "config": {
+        "select": "document",
+        "customtypes": ["author"],
+        "label": "author"
+      }
+    },
+    "date": {
+      "type": "Date",
+      "config": {
+        "label": "date"
+      }
+    },
+    "coverimage": {
+      "type": "Image",
+      "config": {
+        "constraint": {
+          "width": null,
+          "height": null
+        },
+        "thumbnails": [
+          {
+            "name": "mobile",
+            "width": 400,
+            "height": 400
+          }
+        ],
+        "label": "coverimage"
+      }
+    },
+    "excerpt": {
+      "type": "Text",
+      "config": {
+        "label": "excerpt"
+      }
+    },
+    "content": {
+      "type": "StructuredText",
+      "config": {
+        "multi": "paragraph, preformatted, heading1, heading2, heading3, heading4, heading5, heading6, strong, em, hyperlink, image, embed, list-item, o-list-item, o-list-item",
+        "label": "content"
+      }
+    }
+  }
+}
