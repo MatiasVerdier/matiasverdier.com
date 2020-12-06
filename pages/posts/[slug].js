@@ -3,6 +3,7 @@ import Head from 'next/head';
 import { getAllPostsWithSlug, getPostAndMorePosts } from '../../lib/api';
 import { RichText } from 'prismic-reactjs';
 import { format, parseISO } from 'date-fns';
+import Image from 'next/image';
 
 export default function Post({ post, preview }) {
   const router = useRouter();
@@ -37,10 +38,12 @@ export default function Post({ post, preview }) {
 
               {post.coverimage ? (
                 <div className="max-w-2xl mx-auto">
-                  <picture className="block mb-2">
-                    <source srcSet={post.coverimage.url} />
-                    <img src={post.coverimage.url} alt={post.coverimage.alt} />
-                  </picture>
+                  <Image
+                    src={post.coverimage.url}
+                    alt={post.coverimage.alt}
+                    width={post.coverimage.dimensions.width}
+                    height={post.coverimage.dimensions.height}
+                  />
                 </div>
               ) : null}
 
