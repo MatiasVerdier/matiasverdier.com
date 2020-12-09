@@ -22,8 +22,8 @@ export default function Home() {
               </h1>
               <p className="mt-3 text-lg text-gray-500 sm:text-xl md:mt-5">
                 Hello there! My name is Matías Verdier, I'm a Full Stack
-                Software Developer From Uruguay. I'm passionate about learning
-                and sharing my knowledge with other. My main focus is the web,
+                Software Developer from Uruguay. I'm passionate about learning
+                and sharing my knowledge with others. My main focus is the web,
                 specially JavaScript and frameworks like Vue and React.
               </p>
               <div className="mt-10 sm:flex sm:justify-center lg:justify-start">
