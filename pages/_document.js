@@ -6,6 +6,7 @@ class MyDocument extends Document {
       <Html lang="es">
         <Head>
           <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+          <link rel="icon" href="/favicon.png?v=1" />
         </Head>
         <body>
           <Main />
