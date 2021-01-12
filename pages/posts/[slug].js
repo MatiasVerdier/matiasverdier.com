@@ -1,9 +1,9 @@
 import { useRouter } from 'next/router';
-import Head from 'next/head';
 import { getAllPostsWithSlug, getPostAndMorePosts } from '../../lib/api';
 import { RichText } from 'prismic-reactjs';
 import { format, parseISO } from 'date-fns';
-import Image from 'next/image';
+import { es } from 'date-fns/locale';
+import { NextSeo, ArticleJsonLd } from 'next-seo';
 
 export default function Post({ post, preview }) {
   const router = useRouter();
@@ -19,33 +19,62 @@ export default function Post({ post, preview }) {
         ) : (
           <>
             <article className="py-6">
-              <Head>
-                <title>{post.title[0].text} | MatíasVerdier.com</title>
-                {post.coverimage ? (
-                  <meta property="og:image" content={post.coverimage.url} />
-                ) : null}
-              </Head>
+              <NextSeo
+                title={post.title[0].text}
+                titleTemplate="%s | MatíasVerdier.com"
+                description={post.excerpt}
+                canonical={`https://matiasverdier.com/posts/${post._meta.uid}`}
+                openGraph={{
+                  site_name: 'MatíasVerdier.com',
+                  locale: 'es_UY',
+                  url: `https://matiasverdier.com/posts/${post._meta.uid}`,
+                  title: post.title[0].text,
+                  description: post.excerpt,
+                  type: 'article',
+                  article: {
+                    publishedTime: post.date,
+                    authors: [post.author.name],
+                  },
+                  images: post.coverimage
+                    ? [
+                        {
+                          url: post.coverimage.url,
+                          width: 800,
+                          height: 600,
+                          alt: 'Article cover image',
+                        },
+                      ]
+                    : [],
+                }}
+                twitter={{
+                  handle: `@matiasvj`,
+                  site: '@matiasvj',
+                  cardType: 'summary_large_image',
+                }}
+              />
+
+              <ArticleJsonLd
+                url={`https://matiasverdier.com/posts/${post._meta.uid}`}
+                title={post.title[0].text}
+                images={post.coverimage ? [post.coverimage.url] : []}
+                datePublished={post.date}
+                authorName={[post.author.name]}
+                publisherName="Matías Verdier"
+                publisherLogo={`https://matiasverdier.com/favicon.png`}
+                description={post.excerpt}
+              />
 
               <div className="max-w-2xl mx-auto prose prose-lg">
                 <h1 className="pt-4">{post.title[0].text}</h1>
               </div>
 
               <div className="max-w-2xl mx-auto">
-                <div className="mb-6 pl-1 text-lg text-gray-500">
-                  {format(parseISO(post.date), 'd/LL/yyyy')}
+                <div className="mb-6 pl-1 text-gray-500 uppercase">
+                  {format(parseISO(post.date), `dd 'de' MMMM, yyyy`, {
+                    locale: es,
+                  })}
                 </div>
               </div>
-
-              {post.coverimage ? (
-                <div className="max-w-2xl mx-auto">
-                  <Image
-                    src={post.coverimage.url}
-                    alt={post.coverimage.alt}
-                    width={post.coverimage.dimensions.width}
-                    height={post.coverimage.dimensions.height}
-                  />
-                </div>
-              ) : null}
 
               <div className="max-w-2xl mx-auto">
                 <div className="prose prose-lg">
