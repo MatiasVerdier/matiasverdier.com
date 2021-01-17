@@ -4,6 +4,7 @@ import { RichText } from 'prismic-reactjs';
 import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { NextSeo, ArticleJsonLd } from 'next-seo';
+import ErrorPage from 'next/error';
 
 export default function Post({ post, preview }) {
   const router = useRouter();
@@ -12,7 +13,7 @@ export default function Post({ post, preview }) {
   }
 
   return (
-    <div preview={`${preview}`}>
+    <div>
       <div className="container mx-auto">
         {router.isFallback ? (
           <div>Loading…</div>
