@@ -78,7 +78,7 @@ export default function Post({ post, preview }) {
               </div>
 
               <div className="max-w-2xl mx-auto">
-                <div className="prose prose-lg">
+                <div className="prose prose-lg prose-indigo">
                   <RichText render={post.content} />
                 </div>
               </div>
