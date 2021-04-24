@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@splitbee/web": "^0.2.4",
     "@tailwindcss/aspect-ratio": "^0.2.0",
     "@tailwindcss/forms": "^0.3.2",
     "@tailwindcss/typography": "^0.4.0",
@@ -29,7 +30,6 @@
     "singleQuote": true
   },
   "devDependencies": {
-    "@types/gtag.js": "0.0.4",
     "@types/node": "^14.14.41",
     "@types/react": "^17.0.3",
     "typescript": "^4.2.4"
