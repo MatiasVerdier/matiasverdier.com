@@ -1,112 +1,132 @@
-import { useRouter } from 'next/router';
-import { getAllPostsWithSlug, getPostAndMorePosts } from '../../lib/api';
-import { RichText } from 'prismic-reactjs';
 import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { NextSeo, ArticleJsonLd } from 'next-seo';
-import ErrorPage from 'next/error';
+import Image from 'next/image';
+import { serialize } from 'next-mdx-remote/serialize';
+import { MDXRemote } from 'next-mdx-remote';
+import matter from 'gray-matter';
+import fs from 'fs';
+import path from 'path';
 
-export default function Post({ post, preview }) {
-  const router = useRouter();
-  if (!router.isFallback && !post?._meta?.uid) {
-    return <ErrorPage statusCode={404} />;
-  }
+const root = process.cwd();
 
+export default function Post({ mdxSource, frontMatter }) {
   return (
     <div>
       <div className="container mx-auto">
-        {router.isFallback ? (
-          <div>Loading…</div>
-        ) : (
-          <>
-            <article className="py-6">
-              <NextSeo
-                title={post.title[0].text}
-                titleTemplate="%s | MatíasVerdier.com"
-                description={post.excerpt}
-                canonical={`https://matiasverdier.com/posts/${post._meta.uid}`}
-                openGraph={{
-                  site_name: 'MatíasVerdier.com',
-                  locale: 'es_UY',
-                  url: `https://matiasverdier.com/posts/${post._meta.uid}`,
-                  title: post.title[0].text,
-                  description: post.excerpt,
-                  type: 'article',
-                  article: {
-                    publishedTime: post.date,
-                    authors: [post.author.name],
-                  },
-                  images: post.coverimage
-                    ? [
-                        {
-                          url: post.coverimage.url,
-                          width: 800,
-                          height: 600,
-                          alt: 'Article cover image',
-                        },
-                      ]
-                    : [],
-                }}
-                twitter={{
-                  handle: `@matiasvj`,
-                  site: '@matiasvj',
-                  cardType: 'summary_large_image',
-                }}
-              />
+        <article className="pt-6 pb-20">
+          <NextSeo
+            title={frontMatter.title}
+            titleTemplate="%s | MatíasVerdier.com"
+            description={frontMatter.description}
+            canonical={`https://matiasverdier.com/posts/${frontMatter.slug}`}
+            openGraph={{
+              site_name: 'MatíasVerdier.com',
+              locale: 'es_UY',
+              url: `https://matiasverdier.com/posts/${frontMatter.slug}`,
+              title: frontMatter.title,
+              description: frontMatter.description,
+              type: 'article',
+              article: {
+                publishedTime: frontMatter.date,
+                authors: ['Matías Verdier'],
+              },
+              images: frontMatter.coverimage
+                ? [
+                    {
+                      url: frontMatter.coverimage,
+                      width: 800,
+                      height: 600,
+                      alt: 'Article cover image',
+                    },
+                  ]
+                : [],
+            }}
+            twitter={{
+              handle: `@matiasvj`,
+              site: '@matiasvj',
+              cardType: 'summary_large_image',
+            }}
+          />
 
-              <ArticleJsonLd
-                url={`https://matiasverdier.com/posts/${post._meta.uid}`}
-                title={post.title[0].text}
-                images={post.coverimage ? [post.coverimage.url] : []}
-                datePublished={post.date}
-                authorName={[post.author.name]}
-                publisherName="Matías Verdier"
-                publisherLogo={`https://matiasverdier.com/favicon.png`}
-                description={post.excerpt}
-              />
+          <ArticleJsonLd
+            url={`https://matiasverdier.com/posts/${frontMatter.slug}`}
+            title={frontMatter.title}
+            images={frontMatter.coverimage ? [frontMatter.coverimage] : []}
+            datePublished={frontMatter.date}
+            authorName={['Matías Verdier']}
+            publisherName="Matías Verdier"
+            publisherLogo={`https://matiasverdier.com/favicon.png`}
+            description={frontMatter.description}
+          />
 
-              <div className="max-w-2xl mx-auto prose prose-lg">
-                <h1 className="pt-4">{post.title[0].text}</h1>
+          <div className="max-w-2xl mx-auto prose prose-lg">
+            <h1 className="pt-4">{frontMatter.title}</h1>
+          </div>
+
+          <div className="max-w-2xl mx-auto">
+            <div className="mb-6 pl-1 text-gray-500 uppercase">
+              {format(parseISO(frontMatter.date), `dd 'de' MMMM, yyyy`, {
+                locale: es,
+              })}
+            </div>
+          </div>
+
+          <div className="max-w-2xl mx-auto">
+            {frontMatter.coverimage &&
+            frontMatter.include_coverimage_in_body ? (
+              <div className="relative w-full h-96">
+                <Image
+                  src={frontMatter.coverimage}
+                  alt="Post hero image"
+                  layout="fill"
+                  objectFit="cover"
+                />
               </div>
-
-              <div className="max-w-2xl mx-auto">
-                <div className="mb-6 pl-1 text-gray-500 uppercase">
-                  {format(parseISO(post.date), `dd 'de' MMMM, yyyy`, {
-                    locale: es,
-                  })}
-                </div>
-              </div>
-
-              <div className="max-w-2xl mx-auto">
-                <div className="prose prose-lg prose-indigo">
-                  <RichText render={post.content} />
-                </div>
-              </div>
-            </article>
-          </>
-        )}
+            ) : null}
+            <div className="prose prose-lg prose-indigo">
+              <MDXRemote {...mdxSource} />
+            </div>
+          </div>
+        </article>
       </div>
     </div>
   );
 }
 
-export async function getStaticProps({ params, preview = false, previewData }) {
-  const data = await getPostAndMorePosts(params.slug, previewData);
+export async function getStaticProps({ params }) {
+  const { slug } = params;
+  const source = fs.readFileSync(
+    path.join(root, 'content', `${slug}.mdx`),
+    'utf8'
+  );
+  const { data, content } = matter(source);
+  const mdxSource = await serialize(content);
+
+  // Return not found if the environment is production and the post is draft
+  if (process.env.NODE_ENV === 'production' && data.draft) {
+    return {
+      notFound: true,
+    };
+  }
 
   return {
     props: {
-      preview,
-      post: data?.post ?? null,
-      morePosts: data?.morePosts ?? [],
+      mdxSource,
+      frontMatter: { ...data, slug: `https://matiasverdier.com/posts/${slug}` },
     },
-    revalidate: 60,
   };
 }
 
 export async function getStaticPaths() {
-  const allPosts = await getAllPostsWithSlug();
   return {
-    paths: allPosts?.map(({ node }) => `/posts/${node._meta.uid}`) || [],
-    fallback: true,
+    paths: fs.readdirSync(path.join(root, 'content')).map((p) => {
+      return {
+        params: {
+          slug: p.replace(/\.mdx/, ''),
+        },
+      };
+    }),
+    fallback: false,
   };
 }

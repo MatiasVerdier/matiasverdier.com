@@ -1,0 +1,97 @@
+---
+title: Repos interesantes de la semana #1
+date: '2021-01-12'
+draft: false
+description:
+tags: spanish, opensource, webdev, programming
+coverimage: https://images.prismic.io/matiasverdier-com/8f84dfef-7e36-4a7b-b820-cc3814523766_post.coverimage.url.png?auto=compress,format
+canonical_url: https://matiasverdier.com/posts/repos-interesantes-de-la-semana-1
+series: Repos de la semana
+include_coverimage_in_body: false
+---
+
+# Semana 4 enero 2021
+
+Hola! Hoy les traigo una lista de 5 repositorios interesantes que descubrí la semana pasada (algunos ya los sabia de antes 😅). Sin más vueltas paso a comentarles un poco de cada uno, espero que les sea de utilidad.
+
+## Snapdrop
+
+![Sitio web Snapdrop](https://dev-to-uploads.s3.amazonaws.com/i/8pkjtbaxogcea4qdovt8.png)
+
+[Snapdrop](https://snapdrop.net/) es una version open source de la aplicación AirDrop en MacOS. Esta aplicación sirve para compartir archivos estando en la misma red WIFI de forma fácil y rápida.
+
+Es una aplicación simple programada básicamente con HTML, CSS y JS sin ningún framework. Para poder compartir los archivos utiliza la tecnología [WebRTC](https://webrtc.org/) que nos permite establecer conexiones P2P entre dispositivos.
+
+También cuenta con un backend en Nodejs que se usa solamente para manejar la interacción inicial necesaria para establecer la conexión mediante WebRTC, esto quiere decir que los archivos nunca pasan por el servidor, si no solo entre los dispositivos conectados.
+
+Otro detalle interesante es que se puede agregar a la homescreen de tu celular como una app mas, esto gracias a ser implementada como una [Progressive Web App](https://web.dev/progressive-web-apps/).
+
+Repositorio: [RobinLinus / snapdrop](https://github.com/RobinLinus/snapdrop)
+
+## Mozilla Hubs
+
+![Sitio web Mozilla Hubs](https://dev-to-uploads.s3.amazonaws.com/i/948j2xfely6ekl2fyke5.png)
+
+[Hubs](https://hubs.mozilla.com/) es una aplicación que nos permite crear entornos virtuales 3D online para reunirnos con otras personas y charlar en un ambiente un poco mas ameno que una simple video llamada, algo que sin duda ayuda en estos tiempos de pandemia que corren.
+
+Si bien puedes usar dispositivos de realidad virtual (VR) estos no son necesarios.
+
+Puedes elegir tu avatar de una larga lista de opciones e incluso puedes crear tus propios avatars y subirlos a la plataforma, asi que si tienes un poco de conocimiento de Blender u otras herramientas de modelado 3D es una buena oportunidad.
+
+Ademas de esto puedes compartir tu pantalla e interactuar con el entorno, por ejemplo dibujando en un pizarrón.
+
+También tienes la posibilidad de agregar diversos objetos a tu entorno o crearlos de la misma manera que con los avatars. El entorno completo o escena también puede ser cambiado o creado completamente desde cero.
+
+Por ultimo y no menos importantes quiero destacar la gran documentación de alta calidad que tiene, ya sea para usuarios, creadores, o desarrolladores.
+
+Repositorio: [mozilla / hubs](https://github.com/mozilla/hubs)
+
+## Patch Package
+
+Ahora vamos con algo diferente, en este caso es un paquete de npm que nos permite arreglar errores en librerías de terceros sin la necesidad de hacer fork del repositorio original o esperar que los desarrolladores lo arreglen, esto se vuelve necesario muchas veces cuando nuestro sistema depende de que ese arreglo sea incluido.
+
+Esto no es una solución a largo plazo por supuesto, pero es una alternativa simple y muchas veces mas fácil de mantener que crear un fork de la librería en cuestión ya que puedes modificar los archivos originales directamente en la carpeta `node_modules` y la librería se encarga de mantener estos cambios en subsiguientes installs y ademas crea archivos `patch` con los cambios realizados para que los puedas versionar con git.
+
+Repositorio: [ds-300 / patch-package](https://github.com/ds300/patch-package)
+
+## Twind
+
+![Sitio web Twind](https://dev-to-uploads.s3.amazonaws.com/i/38ujkgsmhppxcf63idgs.png)
+
+[Twind](https://twind.dev/) es una librería de CSS-in-JS que usa [Tailwindcss](https://tailwindcss.com/) por debajo manteniendo sus ventajas pero ademas agregando otras funcionalidades interesantes como la agrupación de clases por prefijo, combinación condicional de clases y mas.
+
+Agrupación de clases
+Esto hace que los nombres de las clases sean más cortos evitando la repetición de ciertos prefijos que comparten.
+
+```
+// Before directive grouping
+tw`border-2 border-black border-opacity-50 border-dashed`
+
+// After directive grouping
+tw`border(2 black opacity-50 dashed)`
+
+// With variants
+tw`sm:(border(2 black opacity-50 hover:dashed))`
+// => sm:border-2 sm:border-black sm:border-opacity-50 sm:hover:border-dashed
+
+tw`w(1/2 sm:1/3 lg:1/6) p-2`
+// => w-1/2 sm:w-1/3 lg:w-1/6 p-2
+```
+
+Para mas detalles sobre esta y otras funcionalidades puedes visitar el repositorio: [tw-in-js / twind](https://github.com/tw-in-js/twind)
+
+## Microsite
+
+[Microsite](https://github.com/natemoo-re/microsite) es un generador de sitios estáticos (SSG) construido sobre [Snowpack](https://www.snowpack.dev/) y que utiliza [Preact](https://preactjs.com/) como framework.
+
+La principal característica es que su output presenta una cantidad minima de código JS del lado del cliente, esto es posible gracias a las utilización de Automatic Partial Hydration (Hidratación Parcial Automática), esta técnica permite generar solo el JS necesario para las partes de la pagina que son realmente dinámicas y no tener que enviar todo el árbol de componentes al browser.
+
+Puedes agregar rutas a tu sitio creando archivos (`.js`, `.jsx`, `.tsx`) en la carpeta pages de la misma forma que lo hace [Nextjs](https://nextjs.org/).
+
+Mas info en el repositorio: [natemoo-re / microsite](https://github.com/natemoo-re/microsite)
+
+## Pensamientos finales
+
+Espero que esto les haya servido de algo, voy a intentar crear un post como este todas las semanas con cosas interesantes que voy encontrando.
+
+Si alguna de estas herramientas les pareció interesante y quieren saber mas me lo pueden hacer saber en [mi cuenta de twitter](https://twitter.com/matiasvj) y puede que escriba un articulo especifico con mas detalles de su funcionamiento, ejemplos, etc.

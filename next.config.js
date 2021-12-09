@@ -1,8 +1,5 @@
 module.exports = {
-  future: {
-    webpack5: true,
-  },
   images: {
-    domains: ['images.prismic.io'],
+    domains: ['images.prismic.io', 'dev-to-uploads.s3.amazonaws.com'],
   },
 };
