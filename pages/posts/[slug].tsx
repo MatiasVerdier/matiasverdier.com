@@ -13,7 +13,7 @@ const root = process.cwd();
 export default function Post({ mdxSource, frontMatter }) {
   return (
     <div>
-      <div className="container mx-auto">
+      <div className="container mx-auto px-4">
         <article className="pt-6 pb-20">
           <NextSeo
             title={frontMatter.title}
