@@ -20,17 +20,17 @@ export default function Home() {
                 <span className="inline sm:block md:inline">on the web!</span>
               </h1>
               <p className="mt-3 text-lg text-gray-500 sm:text-xl md:mt-5">
-                Hello there! My name is Matías Verdier, I'm a Full Stack
-                Software Developer from Uruguay. I'm passionate about learning
-                and sharing my knowledge with others. My main focus is the web,
-                specially JavaScript and frameworks like Vue and React.
+                Hello there! My name is Matías Verdier, I&apos;m a Full Stack
+                Software Developer from Uruguay. I&apos;m passionate about
+                learning and sharing my knowledge with others. My main focus is
+                the web, specially JavaScript and frameworks like Vue and React.
               </p>
               <div className="mt-10 sm:flex sm:justify-center lg:justify-start">
                 <div className="rounded-md shadow">
                   <a
                     href="https://twitter.com/matiasvj"
                     target="_blank"
-                    rel="noopener noreferer"
+                    rel="noreferrer"
                     className="leading-none w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-500 hover:bg-blue-600 md:py-4 md:text-lg md:px-10"
                   >
                     <span>
@@ -51,7 +51,7 @@ export default function Home() {
                   <a
                     href="https://github.com/MatiasVerdier"
                     target="_blank"
-                    rel="noopener noreferer"
+                    rel="noreferrer"
                     className="leading-none w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-gray-600 bg-white hover:bg-gray-100 md:py-4 md:text-lg md:px-10"
                   >
                     <span>
@@ -77,6 +77,7 @@ export default function Home() {
               className="absolute inset-0 w-full h-full object-cover"
               src="https://images.prismic.io/matiasverdier-com/e06f9389-e38d-417e-bee6-fc7d29cf311b_21294374-7C27-48F3-BE18-9640CDC1B8DB.jpeg"
               layout="fill"
+              alt="Matías Verdier"
             />
             <div className="absolute inset-0 bg-indigo-900 opacity-60"></div>
           </div>
