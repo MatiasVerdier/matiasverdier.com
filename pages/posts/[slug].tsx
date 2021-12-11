@@ -7,6 +7,7 @@ import { MDXRemote } from 'next-mdx-remote';
 import matter from 'gray-matter';
 import fs from 'fs';
 import path from 'path';
+import { Giscus } from '@giscus/react';
 
 const root = process.cwd();
 
@@ -14,7 +15,7 @@ export default function Post({ mdxSource, frontMatter }) {
   return (
     <div>
       <div className="container mx-auto px-4">
-        <article className="pt-6 pb-20">
+        <article className="py-6">
           <NextSeo
             title={frontMatter.title}
             titleTemplate="%s | MatíasVerdier.com"
@@ -89,6 +90,19 @@ export default function Post({ mdxSource, frontMatter }) {
             </div>
           </div>
         </article>
+
+        <section className="mx-auto mb-20 max-w-screen-sm lg:max-w-screen-md lg:px-10">
+          <Giscus
+            repo="MatiasVerdier/matiasverdier.com"
+            repoId="MDEwOlJlcG9zaXRvcnkzMTg3MTMzMzc="
+            category="Posts"
+            categoryId="DIC_kwDOEv8t-c4CAPqj"
+            mapping="pathname"
+            reactionsEnabled="1"
+            emitMetadata="0"
+            theme="light"
+          />
+        </section>
       </div>
     </div>
   );
