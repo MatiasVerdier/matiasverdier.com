@@ -81,10 +81,11 @@ export default function Post({ mdxSource, frontMatter }) {
                   src={frontMatter.coverimage}
                   alt="Post hero image"
                   fill
-                  sizes="100vw"
+                  sizes="700px"
                   style={{
                     objectFit: 'cover',
                   }}
+                  priority
                 />
               </div>
             ) : null}

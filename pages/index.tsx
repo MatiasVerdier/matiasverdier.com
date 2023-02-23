@@ -78,7 +78,8 @@ export default function Home() {
               src="https://images.prismic.io/matiasverdier-com/e06f9389-e38d-417e-bee6-fc7d29cf311b_21294374-7C27-48F3-BE18-9640CDC1B8DB.jpeg"
               alt="Matías Verdier"
               fill
-              sizes="100vw"
+              priority
+              sizes="50vw"
             />
             <div className="absolute inset-0 bg-indigo-900 opacity-60"></div>
           </div>
