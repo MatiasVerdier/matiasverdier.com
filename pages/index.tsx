@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import Image from 'next/legacy/image';
+import Image from 'next/image';
 
 export default function Home() {
   return (
@@ -76,8 +76,9 @@ export default function Home() {
             <Image
               className="absolute inset-0 w-full h-full object-cover"
               src="https://images.prismic.io/matiasverdier-com/e06f9389-e38d-417e-bee6-fc7d29cf311b_21294374-7C27-48F3-BE18-9640CDC1B8DB.jpeg"
-              layout="fill"
               alt="Matías Verdier"
+              fill
+              sizes="100vw"
             />
             <div className="absolute inset-0 bg-indigo-900 opacity-60"></div>
           </div>

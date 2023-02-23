@@ -1,7 +1,7 @@
 import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { NextSeo, ArticleJsonLd } from 'next-seo';
-import Image from 'next/legacy/image';
+import Image from 'next/image';
 import { serialize } from 'next-mdx-remote/serialize';
 import { MDXRemote } from 'next-mdx-remote';
 import matter from 'gray-matter';
@@ -80,8 +80,11 @@ export default function Post({ mdxSource, frontMatter }) {
                 <Image
                   src={frontMatter.coverimage}
                   alt="Post hero image"
-                  layout="fill"
-                  objectFit="cover"
+                  fill
+                  sizes="100vw"
+                  style={{
+                    objectFit: 'cover',
+                  }}
                 />
               </div>
             ) : null}
