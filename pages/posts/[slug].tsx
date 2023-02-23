@@ -7,7 +7,7 @@ import { MDXRemote } from 'next-mdx-remote';
 import matter from 'gray-matter';
 import fs from 'fs';
 import path from 'path';
-import { Giscus } from '@giscus/react';
+import Giscus from '@giscus/react';
 
 const root = process.cwd();
 
