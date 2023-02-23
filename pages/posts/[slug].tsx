@@ -8,8 +8,7 @@ import matter from 'gray-matter';
 import fs from 'fs';
 import path from 'path';
 import Giscus from '@giscus/react';
-
-const root = process.cwd();
+import { postFilePaths, POSTS_PATH } from '../../utils/mdx-utils';
 
 export default function Post({ mdxSource, frontMatter }) {
   return (
@@ -114,10 +113,7 @@ export default function Post({ mdxSource, frontMatter }) {
 
 export async function getStaticProps({ params }) {
   const { slug } = params;
-  const source = fs.readFileSync(
-    path.join(root, 'content', `${slug}.mdx`),
-    'utf8'
-  );
+  const source = fs.readFileSync(path.join(POSTS_PATH, `${slug}.mdx`), 'utf8');
   const { data, content } = matter(source);
   const mdxSource = await serialize(content);
 
@@ -138,7 +134,7 @@ export async function getStaticProps({ params }) {
 
 export async function getStaticPaths() {
   return {
-    paths: fs.readdirSync(path.join(root, 'content')).map((p) => {
+    paths: postFilePaths.map((p) => {
       return {
         params: {
           slug: p.replace(/\.mdx/, ''),
