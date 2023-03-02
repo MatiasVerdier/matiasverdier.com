@@ -60,22 +60,22 @@ export default function Post({ mdxSource, frontMatter }) {
             description={frontMatter.description}
           />
 
-          <div className="max-w-2xl mx-auto prose prose-lg">
+          <div className="prose prose-lg mx-auto max-w-2xl">
             <h1 className="pt-4">{frontMatter.title}</h1>
           </div>
 
-          <div className="max-w-2xl mx-auto">
-            <div className="mb-6 pl-1 text-gray-500 uppercase">
+          <div className="mx-auto max-w-2xl">
+            <div className="mb-6 pl-1 uppercase text-gray-500">
               {format(parseISO(frontMatter.date), `dd 'de' MMMM, yyyy`, {
                 locale: es,
               })}
             </div>
           </div>
 
-          <div className="max-w-2xl mx-auto">
+          <div className="mx-auto max-w-2xl">
             {frontMatter.coverimage &&
             frontMatter.include_coverimage_in_body ? (
-              <div className="relative w-full h-96">
+              <div className="relative h-96 w-full">
                 <Image
                   src={frontMatter.coverimage}
                   alt="Post hero image"

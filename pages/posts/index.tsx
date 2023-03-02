@@ -26,11 +26,11 @@ export default function Posts({ posts }) {
         />
 
         <div className="py-6">
-          <div className="max-w-2xl mx-auto prose prose-lg mb-6">
+          <div className="prose prose-lg mx-auto mb-6 max-w-2xl">
             <h1 className="pt-4">Blog</h1>
           </div>
 
-          <ul className="max-w-2xl mx-auto flex flex-col space-y-4 prose prose-indigo">
+          <ul className="prose prose-indigo mx-auto flex max-w-2xl flex-col space-y-4">
             {posts.map((post) => (
               <li key={post.slug}>
                 <Link
