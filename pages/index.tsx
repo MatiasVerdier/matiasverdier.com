@@ -32,7 +32,7 @@ export default function Home() {
                     href="https://twitter.com/matiasvj"
                     target="_blank"
                     rel="noreferrer"
-                    className="flex w-full items-center justify-center rounded-md border border-transparent bg-blue-500 px-8 py-3 text-base font-medium leading-none text-white hover:bg-blue-600 md:py-4 md:px-10 md:text-lg"
+                    className="flex w-full items-center justify-center rounded-md border border-transparent bg-blue-500 px-8 py-3 text-base font-medium leading-none text-white hover:bg-blue-600 md:px-10 md:py-4 md:text-lg"
                   >
                     <span>
                       <svg
@@ -48,10 +48,10 @@ export default function Home() {
                     </span>
                   </a>
                 </div>
-                <div className="mt-3 rounded-md shadow sm:mt-0 sm:ml-3">
+                <div className="mt-3 rounded-md shadow sm:ml-3 sm:mt-0">
                   <Link
                     href="/posts"
-                    className="flex w-full items-center justify-center rounded-md border border-transparent bg-white px-8 py-3 text-base font-medium leading-none text-gray-600 hover:bg-gray-100 md:py-4 md:px-10 md:text-lg"
+                    className="flex w-full items-center justify-center rounded-md border border-transparent bg-white px-8 py-3 text-base font-medium leading-none text-gray-600 hover:bg-gray-100 md:px-10 md:py-4 md:text-lg"
                   >
                     Read the blog
                   </Link>
@@ -62,7 +62,7 @@ export default function Home() {
           <div className="xs:hidden relative lg:absolute lg:inset-y-0 lg:right-0 lg:h-full lg:w-1/2">
             <Image
               className="absolute inset-0 h-full w-full object-cover"
-              src="https://images.prismic.io/matiasverdier-com/e06f9389-e38d-417e-bee6-fc7d29cf311b_21294374-7C27-48F3-BE18-9640CDC1B8DB.jpeg"
+              src="/uploads/e06f9389-e38d-417e-bee6-fc7d29cf311b_21294374-7C27-48F3-BE18-9640CDC1B8DB.jpeg"
               alt="Matías Verdier"
               fill
               priority
