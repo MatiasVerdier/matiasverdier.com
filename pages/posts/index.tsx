@@ -1,10 +1,7 @@
-import fs from 'fs';
-import matter from 'gray-matter';
-import Link from 'next/link';
-import path from 'path';
 import { compareDesc, parseISO } from 'date-fns';
-import { postFilePaths, POSTS_PATH } from '../../utils/mdx-utils';
 import { NextSeo } from 'next-seo';
+import Link from 'next/link';
+import client from '../../tina/__generated__/client';
 
 export default function Posts({ posts }) {
   return (
@@ -38,7 +35,7 @@ export default function Posts({ posts }) {
                   href={`/posts/[slug]`}
                   className="text-xl"
                 >
-                  {post.data.title}
+                  {post.title}
                 </Link>
               </li>
             ))}
@@ -49,19 +46,17 @@ export default function Posts({ posts }) {
   );
 }
 
-export function getStaticProps() {
-  const posts = postFilePaths
-    .map((filePath) => {
-      const source = fs.readFileSync(path.join(POSTS_PATH, filePath));
-      const { content, data } = matter(source);
-
+export async function getStaticProps() {
+  const postsResponse = await client.queries.postConnection({ sort: 'date' });
+  const posts = postsResponse.data.postConnection.edges
+    .map(({ node }) => {
       return {
-        content,
-        data,
-        slug: filePath.replace(/\.mdx?$/, ''),
+        slug: `${node._sys.filename}`,
+        title: node.title,
+        date: node.date,
       };
     })
-    .sort((a, b) => compareDesc(parseISO(a.data.date), parseISO(b.data.date)));
+    .sort((a, b) => compareDesc(parseISO(a.date), parseISO(b.date)));
 
   return { props: { posts } };
 }
