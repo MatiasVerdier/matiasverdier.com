@@ -28,6 +28,7 @@ export default defineConfig({
         name: 'post',
         label: 'Posts',
         path: 'content/posts',
+        format: 'mdx',
         fields: [
           {
             type: 'string',
@@ -42,10 +43,39 @@ export default defineConfig({
             label: 'Body',
             isBody: true,
           },
+          {
+            type: 'string',
+            name: 'description',
+            label: 'Description',
+          },
+          {
+            type: 'string',
+            name: 'coverimage',
+            label: 'Cover Image',
+          },
+          {
+            type: 'datetime',
+            label: 'Posted Date',
+            name: 'date',
+            ui: {
+              dateFormat: 'DD MMMM YYYY',
+              timeFormat: 'hh:mm A',
+            },
+          },
+          {
+            type: 'string',
+            name: 'tags',
+            label: 'Tags',
+            list: true,
+          },
+          {
+            type: 'boolean',
+            name: 'include_coverimage_in_body',
+            label: 'Include cover Image in content',
+          },
         ],
         ui: {
-          // This is an DEMO router. You can remove this to fit your site
-          router: ({ document }) => `/demo/blog/${document._sys.filename}`,
+          router: ({ document }) => `/posts/${document._sys.filename}`,
         },
       },
     ],

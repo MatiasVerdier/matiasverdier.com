@@ -1,40 +1,43 @@
+import Giscus from '@giscus/react';
 import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
-import { NextSeo, ArticleJsonLd } from 'next-seo';
+import { ArticleJsonLd, NextSeo } from 'next-seo';
 import Image from 'next/image';
-import { serialize } from 'next-mdx-remote/serialize';
-import { MDXRemote } from 'next-mdx-remote';
-import matter from 'gray-matter';
-import fs from 'fs';
-import path from 'path';
-import Giscus from '@giscus/react';
-import { postFilePaths, POSTS_PATH } from '../../utils/mdx-utils';
+import { useTina } from 'tinacms/dist/react';
+import { TinaMarkdown } from 'tinacms/dist/rich-text';
+import client from '../../tina/__generated__/client';
 
-export default function Post({ mdxSource, frontMatter }) {
+export default function Post({ data, query, variables }) {
+  const { data: tinaData } = useTina({
+    query,
+    variables,
+    data,
+  });
+
   return (
     <div>
       <div className="container mx-auto px-4">
         <article className="py-6">
           <NextSeo
-            title={frontMatter.title}
+            title={tinaData.post.title}
             titleTemplate="%s | MatíasVerdier.com"
-            description={frontMatter.description}
-            canonical={`https://matiasverdier.com/posts/${frontMatter.slug}`}
+            description={tinaData.post.description}
+            canonical={`https://matiasverdier.com/posts/${tinaData.slug}`}
             openGraph={{
               site_name: 'MatíasVerdier.com',
               locale: 'es_UY',
-              url: `https://matiasverdier.com/posts/${frontMatter.slug}`,
-              title: frontMatter.title,
-              description: frontMatter.description,
+              url: `https://matiasverdier.com/posts/${tinaData.slug}`,
+              title: tinaData.post.title,
+              description: tinaData.post.description,
               type: 'article',
               article: {
-                publishedTime: frontMatter.date,
+                publishedTime: tinaData.post.date,
                 authors: ['Matías Verdier'],
               },
-              images: frontMatter.coverimage
+              images: tinaData.post.coverimage
                 ? [
                     {
-                      url: frontMatter.coverimage,
+                      url: tinaData.post.coverimage,
                       width: 800,
                       height: 600,
                       alt: 'Article cover image',
@@ -50,34 +53,34 @@ export default function Post({ mdxSource, frontMatter }) {
           />
 
           <ArticleJsonLd
-            url={`https://matiasverdier.com/posts/${frontMatter.slug}`}
-            title={frontMatter.title}
-            images={frontMatter.coverimage ? [frontMatter.coverimage] : []}
-            datePublished={frontMatter.date}
+            url={`https://matiasverdier.com/posts/${tinaData.slug}`}
+            title={tinaData.post.title}
+            images={tinaData.post.coverimage ? [tinaData.post.coverimage] : []}
+            datePublished={tinaData.post.date}
             authorName={['Matías Verdier']}
             publisherName="Matías Verdier"
             publisherLogo={`https://matiasverdier.com/favicon.png`}
-            description={frontMatter.description}
+            description={tinaData.post.description}
           />
 
           <div className="prose prose-lg mx-auto max-w-2xl">
-            <h1 className="pt-4">{frontMatter.title}</h1>
+            <h1 className="pt-4">{tinaData.post.title}</h1>
           </div>
 
           <div className="mx-auto max-w-2xl">
             <div className="mb-6 pl-1 uppercase text-gray-500">
-              {format(parseISO(frontMatter.date), `dd 'de' MMMM, yyyy`, {
+              {format(parseISO(tinaData.post.date), `dd 'de' MMMM, yyyy`, {
                 locale: es,
               })}
             </div>
           </div>
 
           <div className="mx-auto max-w-2xl">
-            {frontMatter.coverimage &&
-            frontMatter.include_coverimage_in_body ? (
+            {tinaData.post.coverimage &&
+            tinaData.post.include_coverimage_in_body ? (
               <div className="relative h-96 w-full">
                 <Image
-                  src={frontMatter.coverimage}
+                  src={tinaData.post.coverimage}
                   alt="Post hero image"
                   fill
                   sizes="700px"
@@ -89,7 +92,7 @@ export default function Post({ mdxSource, frontMatter }) {
               </div>
             ) : null}
             <div className="prose prose-lg prose-indigo">
-              <MDXRemote {...mdxSource} />
+              <TinaMarkdown content={tinaData.post.body} />
             </div>
           </div>
         </article>
@@ -111,36 +114,38 @@ export default function Post({ mdxSource, frontMatter }) {
   );
 }
 
-export async function getStaticProps({ params }) {
-  const { slug } = params;
-  const source = fs.readFileSync(path.join(POSTS_PATH, `${slug}.mdx`), 'utf8');
-  const { data, content } = matter(source);
-  const mdxSource = await serialize(content);
+export const getStaticProps = async ({ params }) => {
+  let data = {};
+  let query = {};
+  let variables = { relativePath: `${params.slug}.mdx` };
 
-  // Return not found if the environment is production and the post is draft
-  if (process.env.NODE_ENV === 'production' && data.draft) {
-    return {
-      notFound: true,
-    };
+  try {
+    const res = await client.queries.post(variables);
+    query = res.query;
+    data = res.data;
+    variables = res.variables;
+  } catch (error) {
+    console.log(error);
   }
+
+  const dataWithSlug = { ...data, slug: params.slug };
 
   return {
     props: {
-      mdxSource,
-      frontMatter: { ...data, slug: `https://matiasverdier.com/posts/${slug}` },
+      variables,
+      data: dataWithSlug,
+      query,
     },
   };
-}
+};
 
-export async function getStaticPaths() {
+export const getStaticPaths = async () => {
+  const postsListData = await client.queries.postConnection();
+
   return {
-    paths: postFilePaths.map((p) => {
-      return {
-        params: {
-          slug: p.replace(/\.mdx/, ''),
-        },
-      };
-    }),
+    paths: postsListData.data.postConnection.edges.map((post) => ({
+      params: { slug: post.node._sys.filename },
+    })),
     fallback: false,
   };
-}
+};
