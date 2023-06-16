@@ -11,16 +11,16 @@ const branch =
 export default defineConfig({
   branch,
   clientId: env.NEXT_PUBLIC_TINA_CLIENT_ID, // Get this from tina.io
-  token: env.TINA_TOKEN, // Get this from tina.io
+  token: env.NEXT_PUBLIC_TINA_TOKEN, // Get this from tina.io
 
   build: {
     outputFolder: 'admin',
     publicFolder: 'public',
   },
   media: {
-    tina: {
-      mediaRoot: 'uploads',
-      publicFolder: 'public',
+    loadCustomStore: async () => {
+      const pack = await import('next-tinacms-cloudinary');
+      return pack.TinaCloudCloudinaryMediaStore;
     },
   },
   schema: {

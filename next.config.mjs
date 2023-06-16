@@ -7,6 +7,7 @@ const config = {
       'images.prismic.io',
       'dev-to-uploads.s3.amazonaws.com',
       'assets.tina.io',
+      'res.cloudinary.com'
     ],
   },
   async rewrites() {
