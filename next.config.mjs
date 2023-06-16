@@ -1,4 +1,7 @@
-module.exports = {
+import './env.mjs';
+
+/** @type {import("next").NextConfig} */
+const config = {
   images: {
     domains: [
       'images.prismic.io',
@@ -15,3 +18,5 @@ module.exports = {
     ];
   },
 };
+
+export default config;
