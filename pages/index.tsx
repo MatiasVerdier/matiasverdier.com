@@ -62,7 +62,7 @@ export default function Home() {
           <div className="xs:hidden relative lg:absolute lg:inset-y-0 lg:right-0 lg:h-full lg:w-1/2">
             <Image
               className="absolute inset-0 h-full w-full object-cover"
-              src="/uploads/e06f9389-e38d-417e-bee6-fc7d29cf311b_21294374-7C27-48F3-BE18-9640CDC1B8DB.jpeg"
+              src="https://res.cloudinary.com/matiasvj/image/upload/f_auto,c_limit,w_750,q_auto/v1686880440/matiasverdier.com/e06f9389-e38d-417e-bee6-fc7d29cf311b_21294374-7C27-48F3-BE18-9640CDC1B8DB_bzolvz.jpg"
               alt="Matías Verdier"
               fill
               priority
