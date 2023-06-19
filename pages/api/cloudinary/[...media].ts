@@ -1,12 +1,13 @@
-import {
-  mediaHandlerConfig,
-  createMediaHandler,
-} from 'next-tinacms-cloudinary/dist/handlers';
+import { createMediaHandler } from 'next-tinacms-cloudinary/dist/handlers';
 
 import { isAuthorized } from '@tinacms/auth';
 import { env } from '../../../env.mjs';
 
-export const config = mediaHandlerConfig;
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
 
 export default createMediaHandler({
   cloud_name: env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,

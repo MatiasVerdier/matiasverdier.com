@@ -50,7 +50,7 @@ export default defineConfig({
             label: 'Description',
           },
           {
-            type: 'string',
+            type: 'image',
             name: 'coverimage',
             label: 'Cover Image',
           },
@@ -60,7 +60,6 @@ export default defineConfig({
             name: 'date',
             ui: {
               dateFormat: 'DD MMMM YYYY',
-              timeFormat: 'hh:mm A',
             },
           },
           {

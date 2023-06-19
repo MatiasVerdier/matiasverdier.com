@@ -92,7 +92,10 @@ export default function Post({ data, query, variables }) {
               </div>
             ) : null}
             <div className="prose prose-lg prose-indigo">
-              <TinaMarkdown content={tinaData.post.body} />
+              <TinaMarkdown
+                content={tinaData.post.body}
+                components={{ img: PostImage }}
+              />
             </div>
           </div>
         </article>
@@ -111,6 +114,20 @@ export default function Post({ data, query, variables }) {
         </section>
       </div>
     </div>
+  );
+}
+
+function PostImage(props) {
+  return (
+    <Image
+      src={props.url}
+      alt={props.alt}
+      width={650}
+      height={500}
+      style={{
+        objectFit: 'cover',
+      }}
+    />
   );
 }
 

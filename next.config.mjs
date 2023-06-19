@@ -3,12 +3,16 @@ import './env.mjs';
 /** @type {import("next").NextConfig} */
 const config = {
   images: {
-    domains: [
-      'images.prismic.io',
-      'dev-to-uploads.s3.amazonaws.com',
-      'assets.tina.io',
-      'res.cloudinary.com'
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+        port: '',
+        pathname: '/matiasvj/image/upload/**',
+      },
     ],
+    loader: 'custom',
+    loaderFile: './lib/cloudinary-loader.ts',
   },
   async rewrites() {
     return [
